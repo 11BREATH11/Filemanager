@@ -373,7 +373,7 @@
 
         if (config.options.serverRoot) {
             
-            var url = config.options.fileRoot + data['Path'].substr(fileRoot.length, data['Path'].length = fileRoot.length);            
+            var url = config.options.fileRoot + data['Path'].substr(fileRoot.length, data['Path'].length - fileRoot.length);            
             
         } else {
             var url = "connectors/ashx/filemanager.ashx?mode=redirect&path=" + encodeURIComponent(data['Path']);
@@ -400,13 +400,14 @@
     //Return HTML audio player 
     var getAudioPlayer = function (data) {
 
-        if (config.options.serverRoot) {
-
-            var url = config.options.fileRoot + data['Path'].substr(fileRoot.length, data['Path'].length = fileRoot.length);
-
-        } else {
+        
+        /*if (config.options.serverRoot) {
+            
+            var url = config.options.fileRoot + data['Path'].substr(fileRoot.length, data['Path'].length - fileRoot.length);            
+            
+        } else {*/
             var url = "connectors/ashx/filemanager.ashx?mode=redirect&path=" + encodeURIComponent(data['Path']);
-        }
+        //}
 
         var code = '<center><audio src="' + data['Path'] + '" id = "myAudio" controls="controls">';
         code += '<img src="' + data['Preview'] + '" />';
@@ -421,8 +422,8 @@
           {
               file: url,
               type: ext,
-              primary: "flash",
-              startparam: "start"
+              primary: "flash"/*,
+              startparam: "start"*/
           });
 
         //$("#myAudio_wrapper").css("text-align", "center");

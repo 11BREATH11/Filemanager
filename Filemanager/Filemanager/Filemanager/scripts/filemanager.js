@@ -422,8 +422,8 @@
           {
               file: url,
               type: ext,
-              primary: "flash"/*,
-              startparam: "start"*/
+              primary: "flash",
+              startparam: "start"
           });
 
         //$("#myAudio_wrapper").css("text-align", "center");
