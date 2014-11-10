@@ -1613,7 +1613,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/02/2014 22:45:54</publishTime>
     </File>
     <File Include="Filemanager/scripts/jquery.filetree/jqueryFileTree.js">
-      <publishTime>11/02/2014 22:45:54</publishTime>
+      <publishTime>11/11/2014 00:51:24</publishTime>
     </File>
     <File Include="Filemanager/scripts/jquery.form-3.24.js">
       <publishTime>11/02/2014 22:45:54</publishTime>

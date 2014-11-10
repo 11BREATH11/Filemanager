@@ -77,3 +77,4 @@ E:\WEB\Conversation\FileManager\Filemanager\Filemanager\bin\System.Web.WebPages.
 E:\WEB\Conversation\FileManager\Filemanager\Filemanager\bin\System.Web.WebPages.Razor.xml
 E:\WEB\Conversation\FileManager\Filemanager\Filemanager\obj\Debug\Filemanager.dll
 E:\WEB\Conversation\FileManager\Filemanager\Filemanager\obj\Debug\Filemanager.pdb
+E:\WEB\Conversation\FileManager\Filemanager\Filemanager\obj\Debug\Filemanager.csprojResolveAssemblyReference.cache
