@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="@Url.Content("~/Scripts/custom/FileManager/FileManager.js")" type="text/javascript"></script>
+
+<p>
+   <input type="button" value="Open File Manager" onclick="OpenFileMngr(@ViewBag.user_id,@ViewBag.fileRoot,
+                                                                        @ViewBag.serverRoot,@ViewBag.serverMode,@ViewBag.useFileTable);" />
+
+</p>
