@@ -28,7 +28,7 @@ function OpenFileMngr(user_id, fileRoot, serverRoot, serverMode, useFileTable) {
     firstLoad = false;
     $.window({
         showModal: false, modalOpacity: 0.5,
-        title: "Робота з файлами",
+        title: "Work whith files",
         url: "Filemanager/index.html?user_id=" + user_id +
              "&fileRoot=" + fileRoot + "&serverRoot=" + serverRoot +
              "&serverMode=" + serverMode + "&useFileTable=" + useFileTable,

@@ -590,7 +590,6 @@
     <Content Include="Filemanager\scripts\filemanager.js" />
     <Content Include="Filemanager\scripts\filemanager.liveSearch.js" />
     <Content Include="Filemanager\scripts\filemanager.liveSearch.min.js" />
-    <Content Include="Filemanager\scripts\filemanager.min.js" />
     <Content Include="Filemanager\scripts\jquery-1.8.3.js" />
     <Content Include="Filemanager\scripts\jquery-1.8.3.min.js" />
     <Content Include="Filemanager\scripts\jquery-ui-1.10.4.custom.js" />

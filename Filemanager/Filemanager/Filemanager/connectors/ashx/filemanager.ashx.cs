@@ -25,8 +25,7 @@ namespace NewFileManager.FileManager.connectors.ashx
         //===================================================================
 
         public string IconDirectory = "./images/fileicons/"; // Icon directory for filemanager. [string]
-        public string[] imgExtensions = new string[] { ".jpg", ".png", ".jpeg", ".gif", ".bmp" }; // Only allow this image extensions. [string]
-        public string[] previewExtensions = new string[] { ".wav", ".mp4", ".avi", ".mp3", ".mht", ".html", ".htm" };        
+        public string[] imgExtensions = new string[] { ".jpg", ".png", ".jpeg", ".gif", ".bmp" }; // Only allow this image extensions. [string]        
         public static bool useFileTable;
 
         //===================================================================
@@ -52,19 +51,6 @@ namespace NewFileManager.FileManager.connectors.ashx
             foreach (string ext in imgExtensions)
             {
                 if (extIn == ext)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private bool IsPreview(FileInfo fileInfo)
-        {
-            foreach (string ext in previewExtensions)
-            {
-                if (Path.GetExtension(fileInfo.FullName) == ext)
                 {
                     return true;
                 }
@@ -1013,30 +999,37 @@ namespace NewFileManager.FileManager.connectors.ashx
                     context.Response.Write(AddFolder(context.Request["path"], context.Request["name"]));
 
                     break;
-                case "download":                    
+                case "downloadCheck":                    
 
                     string resultCheck = checkPath(context.Request["path"]);
 
                     if (resultCheck == "")
                     {
+
+                         StringBuilder sbNew = new StringBuilder();
+
+                         sbNew.AppendLine("{");
+                         sbNew.AppendLine("\"Error\": \"No error\",");
+                         sbNew.AppendLine("\"Code\": 0");
+                         sbNew.AppendLine("}");
+
+                         context.Response.Write(sbNew.ToString());                        
+                    }
+                    else
+                    {     
+                        
+                        context.Response.Write(resultCheck);
+                    }
+
+                    break;
+                case "download": 
+                    
                         FileInfo fi = new FileInfo(context.Request["path"]);
 
                         context.Response.AddHeader("Content-Disposition", "attachment; filename=" + context.Server.UrlPathEncode(fi.Name));
                         context.Response.AddHeader("Content-Length", fi.Length.ToString());
                         context.Response.ContentType = "application/octet-stream";
-                        context.Response.TransmitFile(fi.FullName);
-                    }
-                    else
-                    {                       
-
-                        string serverPath = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + HttpContext.Current.Request.ApplicationPath;
-
-                        serverPath += "Filemanager/index.html?user_id=" + context.Request["user_id"];
-
-                        context.Response.ContentType = "text/html";
-                        context.Response.Write("Файл не знайдено.Будь ласка оновіть файлове дерево.");
-                        context.Response.Write("<a href='"+ serverPath + "'>Повернутися</a>\n");
-                    }
+                        context.Response.TransmitFile(fi.FullName);  
 
                     break;
                 case "add":                    

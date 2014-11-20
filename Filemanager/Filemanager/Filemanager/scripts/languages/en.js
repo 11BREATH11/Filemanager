@@ -6,7 +6,7 @@
     "DISALLOWED_FILE_TYPE": "These files are not allowed:",
     "DOWNLOAD_FILE": "Download file",
     "ERROR_RENAMING_DIRECTORY": "Catolog was change.Automate update file tree.",
-    "ERROR_RENAMING_FILE": "The file has been updated izmenen.Avtomatichne files prospectus.",
+    "ERROR_RENAMING_FILE": "The file was change.Automate update folder.",
     "ERROR_REPLACING_FILE": "Please, provide a file having the following extension:",
     "ERROR_UPLOADING_FILE": "Error uploading file.", 
     "FILE_ALREADY_EXISTS": "The file named '%s' already exists on the server.\nDo you want to overwrite the file?",
