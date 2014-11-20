@@ -1,7 +1,7 @@
 {
     "_comment": "IMPORTANT : go to the wiki page to know about options configuration https://github.com/simogeo/Filemanager/wiki/Filemanager-configuration-file",
 "options": {
-    "culture": "ua",
+    "culture": "en",
     "lang": "ashx",
     "defaultViewMode": "grid",
     "autoload": true,
@@ -19,7 +19,7 @@
     "dateFormat": "d M Y H:i",
     "_comment": "Папка с файлами находится внутри проекта true",
     "serverRoot": false,        
-    "showButtonMode": true,        
+    "showButtonMode": false,        
     "fileRoot": "//00app003/sql2012/MP_CORPZ_Files/Files/Clinic_1/PatientCases/Case_123/",        
     "_comment": "Серверный режим работы с файлами true, клиентский режим false",
     "serverMode": false,

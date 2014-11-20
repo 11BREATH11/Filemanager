@@ -563,6 +563,9 @@
     //Create FileTree and bind elements
     //called during initialization and also when adding a file 
     //directly in root folder (via addNode)    
+
+
+    var panSearch = true;
     
     var createFileTree = function () {
         
@@ -598,7 +601,7 @@
                 //Search function
                 if (config.options.searchBox == true) {
 
-                    if ($("#pen").is(":visible")) {
+                    if (panSearch) {
                         $('#q').liveUpdate('#filetree ul', 1).blur();
                     } else {
                         $('#q').liveUpdate('#filetree ul', 2).blur();
@@ -2182,10 +2185,7 @@
         return false;
     }
 
-    function Init() {
-        if (config.options.serverMode) {
-            $("#CloseTree").hide();
-        }
+    function Init() {        
 
         var flashYes = false;
 
@@ -2582,6 +2582,8 @@
                 $("#people").show();
                 $("#pen").hide();
 
+                panSearch = false;
+
                 $('#q').liveUpdate('#filetree ul', 2).blur();
 
             });
@@ -2590,6 +2592,8 @@
 
                 $("#people").hide();
                 $("#pen").show();
+
+                panSearch = true;
 
                 $('#q').liveUpdate('#filetree ul', 1).blur();
 
@@ -2721,6 +2725,15 @@
             });
             //getDetailView(fileRoot + expandedFolder);
         }
+
+        if (config.options.serverMode) {
+            $("#CloseTree").hide();
+            $('#home').trigger("click");
+        }
+
+        if (config.options.useFileTable) {
+            $("#pen").show();            
+        }        
     }
 
     $(function () {

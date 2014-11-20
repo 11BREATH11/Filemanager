@@ -152,6 +152,15 @@ if (jQuery) (function ($) {
 
 				    $(t).find('LI A').bind("openTree", function () {
 				        o.expandedFolder = "";
+
+				        //$(this).css("background-color", "Grey");
+
+				        if (o.last && o.last[0].id != $(this)[0].id) {
+				            o.last.css("background-color", "transparent");
+				        }
+
+				        o.last = $(this);
+
 				        if ($(this).parent().hasClass('directory')) {
 				            if ($(this).parent().hasClass('collapsed')) {
 				                // Expand
@@ -174,11 +183,13 @@ if (jQuery) (function ($) {
 				    $(t).find('LI A').bind("closeTree", function () {
 				        o.expandedFolder = "";
 
-				        if (o.last && o.last[0].uniqueID != $(this)[0].uniqueID) {
+				        //$(this).css("background-color", "Grey");
+
+				        if (o.last && o.last[0].id != $(this)[0].id) {
 				            o.last.css("background-color", "transparent");
 				        }
 
-				        o.last = null;
+				        o.last = $(this);
 
 				        if ($(this).parent().hasClass('directory')) {		               						   
 

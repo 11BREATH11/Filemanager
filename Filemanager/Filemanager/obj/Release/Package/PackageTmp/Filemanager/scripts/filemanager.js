@@ -422,8 +422,8 @@
           {
               file: url,
               type: ext,
-              primary: "flash"/*,
-              startparam: "start"*/
+              primary: "flash",
+              startparam: "start"
           });
 
         //$("#myAudio_wrapper").css("text-align", "center");
@@ -690,9 +690,11 @@
         }
     };
 
-    var updateFolder = function () {
+    var updateFolder = function (path) {
 
-        var path = $('#currentpath').val();
+        if (path == null) {
+            path = $('#currentpath').val();
+        }
         
         if (!config.options.serverMode) {
 
@@ -1467,9 +1469,37 @@
                 selectItem(data);
                 break;
 
-            case 'download': // todo implement javascript method to test if exstension is correct
-                var d = new Date();
-                window.location = fileConnector + '?mode=download&path=' + encodeURIComponent(data['Path']) + '&user_id=' + get("user_id") + '&time=' + d.getMilliseconds();
+            case 'download': 
+
+                var d = new Date();          
+
+                url = fileConnector + '?mode=downloadCheck&path=' + encodeURIComponent(data['Path']) + '&user_id=' + get("user_id") + '&time=' + d.getMilliseconds();
+
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    dataType: 'json',
+                    async: false,
+                    cache: false,
+                    success: function (result) {
+
+                        if (result['Code'] == 0) {
+
+                            d = new Date();                            
+
+                            window.location = fileConnector + '?mode=download&path=' + encodeURIComponent(data['Path']) + '&user_id=' + get("user_id") + '&time=' + d.getMilliseconds();
+                        }
+
+                        if (result['Code'] == -1) {
+
+                            $.prompt(lg.ERROR_RENAMING_FILE);
+
+                            var currentpath = result['Path'].substr(0, result['Path'].lastIndexOf('/') + 1);
+
+                            updateFolder(currentpath);
+                        }
+                    }
+                });
                 break;
 
             case 'rename':
