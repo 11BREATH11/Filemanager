@@ -1,4 +1,4 @@
-Особенности веб файлового менеджера(демо версия Visual Studio 2012)
+Особенности веб файлового менеджера(Visual Studio 2012)
 
 <a href="http://filemanager.epac.to">http://filemanager.epac.to</a>
 
