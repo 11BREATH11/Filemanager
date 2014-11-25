@@ -563,6 +563,9 @@
     //Create FileTree and bind elements
     //called during initialization and also when adding a file 
     //directly in root folder (via addNode)    
+
+
+    var panSearch = true;
     
     var createFileTree = function () {
         
@@ -598,7 +601,7 @@
                 //Search function
                 if (config.options.searchBox == true) {
 
-                    if ($("#pen").is(":visible")) {
+                    if (panSearch) {
                         $('#q').liveUpdate('#filetree ul', 1).blur();
                     } else {
                         $('#q').liveUpdate('#filetree ul', 2).blur();
@@ -1594,7 +1597,7 @@
 
         // Retrieve the data & populate the template.               
 
-        var url = "connectors/ashx/filemanager.ashx?path=" + encodeURIComponent(file) + "&mode=redirect";
+        var url = "connectors/ashx/filemanager.ashx?path=" + encodeURIComponent(file) + "&mode=redirect&view=true";
 
         if (data['Code'] == 0) {
             if (isWebFile(data['Filename'])) {
@@ -1726,7 +1729,14 @@
                         user = data[key]['Properties']['User'];
                     }
 
-                    result += '<li class="' + cap_classes + '"' + title + '"><div class="clip"><img src="' + data[key]['Preview'] + '" width="' + scaledWidth + '" alt="' + data[key]['Path'] + '" data-path="' + data[key]['Path'] + '" /></div><p>' + data[key]['Filename'] + '</p>' + '<p>' + user + '</p>';
+                    var imgUrl = data[key]['Preview'];
+
+                    if (data[key]['Preview'].indexOf(config.icons.path)==-1) {
+
+                        imgUrl += '&view=false';
+                    }                    
+
+                    result += '<li class="' + cap_classes + '"' + title + '"><div class="clip"><img src="' + imgUrl + '" width="' + scaledWidth + '" alt="' + data[key]['Path'] + '" data-path="' + data[key]['Path'] + '" /></div><p>' + data[key]['Filename'] + '</p>' + '<p>' + user + '</p>';
                     if (props['Width'] && props['Width'] != '') result += '<span class="meta dimensions">' + props['Width'] + 'x' + props['Height'] + '</span>';
                     if (props['Size'] && props['Size'] != '') result += '<span class="meta size">' + props['Size'] + '</span>';
                     if (props['Date Created'] && props['Date Created'] != '') result += '<span class="meta created">' + props['Date Created'] + '</span>';
@@ -2182,10 +2192,7 @@
         return false;
     }
 
-    function Init() {
-        if (config.options.serverMode) {
-            $("#CloseTree").hide();
-        }
+    function Init() {        
 
         var flashYes = false;
 
@@ -2582,6 +2589,8 @@
                 $("#people").show();
                 $("#pen").hide();
 
+                panSearch = false;
+
                 $('#q').liveUpdate('#filetree ul', 2).blur();
 
             });
@@ -2590,6 +2599,8 @@
 
                 $("#people").hide();
                 $("#pen").show();
+
+                panSearch = true;
 
                 $('#q').liveUpdate('#filetree ul', 1).blur();
 
@@ -2721,6 +2732,15 @@
             });
             //getDetailView(fileRoot + expandedFolder);
         }
+
+        if (config.options.serverMode) {
+            $("#CloseTree").hide();
+            $('#home').trigger("click");
+        }
+
+        if (config.options.useFileTable) {
+            $("#pen").show();            
+        }        
     }
 
     $(function () {

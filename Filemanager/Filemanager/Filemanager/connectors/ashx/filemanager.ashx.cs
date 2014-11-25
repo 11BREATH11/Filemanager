@@ -850,8 +850,7 @@ namespace NewFileManager.FileManager.connectors.ashx
             {                
                 case "redirect":
 
-                        string f = context.Request.QueryString.Get("path");
-
+                        string f = context.Request.QueryString.Get("path");                        
                         if (!File.Exists(f))
                         {
                             context.Response.ContentType = "text/html";
@@ -859,6 +858,8 @@ namespace NewFileManager.FileManager.connectors.ashx
                         }
                         else
                         {
+
+                            string view = context.Request.QueryString.Get("view");
 
                             string ext = Path.GetExtension(f);
                             context.Response.ContentEncoding = Encoding.UTF8;
@@ -875,25 +876,51 @@ namespace NewFileManager.FileManager.connectors.ashx
                              else
                              {
                                  context.Response.ContentType = GetMimeType(ext);
-                             }*/                            
+                             }*/
 
-                            using (FileStream fs = File.OpenRead(f))
+                            if (view != null && IsImage(ext) && view == "false")
                             {
-                                int length = (int)fs.Length;
-                                byte[] buffer;
 
-                                using (BinaryReader br = new BinaryReader(fs))
+                                using (FileStream fs = new FileStream(f, FileMode.Open, FileAccess.Read))
                                 {
-                                    buffer = br.ReadBytes(length);
-                                }
+                                    using (System.Drawing.Image img = System.Drawing.Image.FromStream(fs))
+                                    {
 
-                                //context.Response.Clear();
-                                //context.Response.Buffer = true;
-                                context.Response.AddHeader("Content-Disposition", String.Format("inline;filename={0}", Path.GetFileName(f)));
-                                context.Response.AddHeader("Content-Length", length.ToString());
-                                context.Response.ContentType = GetMimeType(ext);
-                                context.Response.BinaryWrite(buffer);                                
+                                        Image resizeImg = (Image)(new Bitmap(img, new Size(64, 64)));
+
+                                        MemoryStream ms = new MemoryStream();
+                                        resizeImg.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+                                        context.Response.AddHeader("Content-Disposition", String.Format("inline;filename={0}", Path.GetFileName(f)));
+                                        context.Response.AddHeader("Content-Length", ms.Length.ToString());
+                                        context.Response.ContentType = GetMimeType(ext);
+                                        context.Response.BinaryWrite(ms.ToArray());                                        
+                                    }
+                                }
                             }
+                            else
+                            {
+
+                                using (FileStream fs = File.OpenRead(f))
+                                {
+
+                                    int length = (int)fs.Length;
+                                    byte[] buffer;
+
+                                    using (BinaryReader br = new BinaryReader(fs))
+                                    {
+                                        buffer = br.ReadBytes(length);
+                                    }
+
+                                    //context.Response.Clear();
+                                    //context.Response.Buffer = true;
+                                    context.Response.AddHeader("Content-Disposition", String.Format("inline;filename={0}", Path.GetFileName(f)));
+                                    context.Response.AddHeader("Content-Length", length.ToString());
+                                    context.Response.ContentType = GetMimeType(ext);
+                                    context.Response.BinaryWrite(buffer);
+                                }
+                            }                        
+                        
                         }
 
                         context.Response.End();                  
