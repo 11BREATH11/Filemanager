@@ -1,15 +1,21 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "FileManager";
     Layout = "~/Views/Shared/_BootstrapLayout.basic.cshtml";
 }
 
-<script src="@Url.Content("~/Scripts/custom/FileManager/FileManager.js")" type="text/javascript"></script>
+<div class="span4">
 
-<p>
-   <input type="button" class="btn btn-primary" value="Open File Manager in Clent Mode" onclick="OpenFileMngr(@ViewBag.user_id,@ViewBag.fileRoot,
+
+     <input type="button" class="btn btn-primary" value="Open File Manager in Clent Mode" onclick="OpenFileMngr(@ViewBag.user_id,@ViewBag.fileRoot,
                                                                         @ViewBag.serverRoot,false,@ViewBag.useFileTable);" />
+</div>
+
+<div class="span4">
 
     <input type="button" class="btn btn-primary" value="Open File Manager in Server Mode" onclick="OpenFileMngr(@ViewBag.user_id,@ViewBag.fileRoot,
                                                                         @ViewBag.serverRoot,true,@ViewBag.useFileTable);" />
 
-</p>
+</div>
+
+
+

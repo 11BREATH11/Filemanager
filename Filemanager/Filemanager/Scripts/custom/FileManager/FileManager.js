@@ -1,5 +1,4 @@
-﻿var firstLoad = true;
-
+﻿
 function ResizeFrame(wnd) {
 
     var content = wnd.getFrame().contents().find("iframe");
@@ -16,9 +15,9 @@ function ResizeFrame(wnd) {
     
 }
 
-function OpenFileMngr(user_id, fileRoot, serverRoot, serverMode, useFileTable) {
 
-    firstLoad = false;
+function OpenFileMngr(user_id, fileRoot, serverRoot, serverMode, useFileTable) {   
+    
     $.window({
         showModal: false, modalOpacity: 0.5,
         title: "Work whith files",
@@ -29,12 +28,13 @@ function OpenFileMngr(user_id, fileRoot, serverRoot, serverMode, useFileTable) {
         bookmarkable: false,
         draggable: true,
         resizable: true,
-        maxWidth:1024,
-        maxHeight: 768,
         minWidth: 500,
         minHeight: 500,
+        maximizable: true,
+        minimizable: true,
         scrollable: false,
-        afterResize: function (wnd) {
+        afterResize: function (wnd) {            
+            
             setTimeout(function () { ResizeFrame(wnd) }, 30);
         },
         afterMaximize: function (wnd) {
@@ -42,7 +42,6 @@ function OpenFileMngr(user_id, fileRoot, serverRoot, serverMode, useFileTable) {
         },        
         afterCascade: function (wnd) {
             setTimeout(function () { ResizeFrame(wnd) }, 30);
-        }        
-
-    });
+        }
+    });   
 };

@@ -78,9 +78,3 @@ E:\WEB\Conversation\FileManager\Filemanager\Filemanager\bin\System.Web.WebPages.
 E:\WEB\Conversation\FileManager\Filemanager\Filemanager\obj\Debug\Filemanager.dll
 E:\WEB\Conversation\FileManager\Filemanager\Filemanager\obj\Debug\Filemanager.pdb
 E:\WEB\Conversation\FileManager\Filemanager\Filemanager\obj\Debug\Filemanager.csprojResolveAssemblyReference.cache
-E:\WEB\Conversation\FileManager\Filemanager\Filemanager\bin\Antlr3.Runtime.dll
-E:\WEB\Conversation\FileManager\Filemanager\Filemanager\bin\System.Web.Optimization.dll
-E:\WEB\Conversation\FileManager\Filemanager\Filemanager\bin\WebGrease.dll
-E:\WEB\Conversation\FileManager\Filemanager\Filemanager\bin\Microsoft.Web.Mvc.dll
-E:\WEB\Conversation\FileManager\Filemanager\Filemanager\bin\Antlr3.Runtime.pdb
-E:\WEB\Conversation\FileManager\Filemanager\Filemanager\bin\System.Web.Optimization.xml

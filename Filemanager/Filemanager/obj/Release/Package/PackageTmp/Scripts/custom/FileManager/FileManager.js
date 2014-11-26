@@ -1,4 +1,24 @@
-﻿var firstLoad = true;
+﻿
+var isMobile = {
+    Android: function () {
+        return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function () {
+        return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function () {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function () {
+        return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function () {
+        return navigator.userAgent.match(/IEMobile/i);
+    },
+    any: function () {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+    }
+};
 
 function ResizeFrame(wnd) {
 
@@ -16,10 +36,13 @@ function ResizeFrame(wnd) {
     
 }
 
+
 function OpenFileMngr(user_id, fileRoot, serverRoot, serverMode, useFileTable) {
 
-    firstLoad = false;
-    $.window({
+    var myWin;    
+    var isMob = isMobile.any();    
+    
+    var myWin = $.window({
         showModal: false, modalOpacity: 0.5,
         title: "Work whith files",
         url: "Filemanager/index.html?user_id=" + user_id +
@@ -27,14 +50,15 @@ function OpenFileMngr(user_id, fileRoot, serverRoot, serverMode, useFileTable) {
              "&serverMode=" + serverMode + "&useFileTable=" + useFileTable,
         width: 920, height: 600,
         bookmarkable: false,
-        draggable: true,
+        draggable: !isMob,
         resizable: true,
-        maxWidth:1024,
-        maxHeight: 768,
         minWidth: 500,
         minHeight: 500,
+        maximizable: !isMob,
+        minimizable: !isMob,
         scrollable: false,
-        afterResize: function (wnd) {
+        afterResize: function (wnd) {            
+            
             setTimeout(function () { ResizeFrame(wnd) }, 30);
         },
         afterMaximize: function (wnd) {
@@ -42,7 +66,16 @@ function OpenFileMngr(user_id, fileRoot, serverRoot, serverMode, useFileTable) {
         },        
         afterCascade: function (wnd) {
             setTimeout(function () { ResizeFrame(wnd) }, 30);
-        }        
+        },
 
+        onOpen: function (wnd) {
+            
+
+        }
     });
+
+    if (isMob) {
+
+        myWin.maximize();
+    }    
 };

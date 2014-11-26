@@ -1,7 +1,6 @@
 ﻿/**
  *	Filemanager JS core
 */
-
 (function ($) {
 
     // function to retrieve GET params
@@ -712,7 +711,7 @@
                 var thisNode = $('#filetree').find('a[data-path="' + path + '"]');
                 var parentNode = thisNode.next();
 
-                if (path == config.options.fileRoot) {
+                if (path == fileRoot) {
                     parentNode = $('#filetree > ul.jqueryFileTree');
                     parentNode.children(".file").remove();
 
@@ -744,7 +743,7 @@
 
                         // if is root folder
                         // TODO optimize
-                        if (path == config.options.fileRoot) {
+                        if (path == fileRoot) {
                             parentNode = $('#filetree > ul.jqueryFileTree');
 
                             parentNode.append(newNode);
@@ -765,7 +764,7 @@
                     }
                 }
 
-                if (path != config.options.fileRoot) {
+                if (path != fileRoot) {
 
                     thisNode = $('#filetree').find('a[data-path="' + path + '"]');
                 } else {
@@ -785,7 +784,7 @@
 
             // if is root folder
             // TODO optimize
-            if (path == config.options.fileRoot) {
+            if (path == fileRoot) {
                 //parentNode = $('#filetree').find('ul.jqueryFileTree');
 
                 //parentNode.prepend(newNode);
@@ -2205,6 +2204,14 @@
         }
         finally {
 
+
+            /** load searchbox */
+            if (config.options.searchBox === true) {
+                $.getScript("./scripts/filemanager.liveSearch.js");
+            } else {
+                $('#search').remove();
+            }
+
             $("#file-input-container").hide();
             $("#upload").hide();
             $("#uploadFlash").show();
@@ -2544,13 +2551,6 @@
             $("#newfile").change(function () {
                 $("#filepath").val($(this).val().replace(/.+[\\\/]/, ""));
             });
-
-            /** load searchbox */
-            if (config.options.searchBox === true) {
-                $.getScript("./scripts/filemanager.liveSearch.js");
-            } else {
-                $('#search').remove();
-            }
 
             // cosmetic tweak for buttons
             $('button').wrapInner('<span></span>');
