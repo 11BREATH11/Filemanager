@@ -1,27 +1,24 @@
-Особенности веб файлового менеджера(Visual Studio 2012)
+Features Web File Manager (Visual Studio 2012)
 
-<a href="http://filemanager.epac.to">http://filemanager.epac.to</a>
+<a href="http://filemanager.mrbasic.com"> http://filemanager.mrbasic.com </a>
 
-1. Два режима работы
+1. Two modes of operation
 
-a) Клиентский режим, то есть вся информация о файлах с сервера передаеться на клиент при первом открытии, 
-и просмотр файлов уже происходит почти только на клиенте, при небольшом количестве папок и файлов существенно убыстряет работу,
-у пользователя создаеться впечетление что файлы хранятся у него на компьютере,файловое дерево можно открывать сразу все полностью 
-и быстро.Минусы, задержка при первом открытии,зависит от количества папок и файлов,
-если файлов много надо использовать тогда только серверный режим.
+a) The client mode, you have all the information about the files from the server to the client is sent when you first opened,
+and viewing files already occurs almost only on the client, with a small number of folders and files much faster to,
+the user the impression that the files are stored on his computer, file tree, you can open all at once completely
+and quickly. Cons delay when you first opened depends on the number of folders and files,
+If the file is much to use then only server mode.
 
-б) Обычный серверный режим, при каждом просмотре файлов или файлового дерева,идут постоянно запросы на сервер.
-Минусы, работает медленно и зависит от интернет соединения.
+b) Normal server mode, each time you view a file or file tree are constantly requests to the server.
+Cons, slow and depends on the internet connection.
 
-2. Редактирование текстовых файлов, просмотр в файловом менеджере html,mht и хml файлов.
+2. Editing text files in the file manager view html,htm,mht,doc,docx,pdf,xml,css,php,c,cpp,h,hpp,js,xls,xlsx,ppt,pptx,pages,ai,psd,tiff,dxf,svg,eps,ps,ttf,xp files.
 
-4. Просмотр видео и прослущивание музыки,два режима, если есть флеш проигрователь, работает на флеш,если нет, работает на html5.
+4. View the videos and listening to music jwPlayer, picture viewing jpg, jpeg, gif, png, svg, bmp
 
-5. Пакетная загрузка файлов,два режима, если есть флеш проигрователь, работает на флеш,если нет, работает на html5,если нет html5, 
-   работает на java script.
+5. Batch upload files
 
-6. Есть проверка на множество разных колизий когда несколько пользователей работают с одними и теми же файлами и папками. В любых режимах 
-   работы информирует о том что файл или папка были уже изменены, или удалены другим пользователем и автоматически обновляет эту папку 
-   где были изменения.
+6. There are many different verification Coliseum when multiple users are working with the same files and folders. In all modes of operation informs that the file or folder was already changed, or deleted by another user and automatically updates the folder where there were changes.
 
-7. Легко импортируеться в проекты ASP NET и ASP NET MVC,есть конфигурационный файл с множество настройками,есть локализация.
+7. It is easy to import projects and ASP NET ASP NET MVC, there is a configuration file with a lot of settings, there is a localization en, ru, ua
