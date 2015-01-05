@@ -107,6 +107,10 @@ UL.jqueryFileTree A:hover {
 	background: url(images/doc.png) left top no-repeat;
 }
 
+.jqueryFileTree LI.ext_docx {
+	background: url(images/docx.png) left top no-repeat;
+}
+
 .jqueryFileTree LI.ext_exe {
 	background: url(images/application.png) left top no-repeat;
 }

@@ -102,10 +102,38 @@
             "html",
             "htm",
             "mht",
-            "txt",
-            "xml"
+            "txt"          
         ]
-    },
+    },    
+    "doc": {
+        "docExt": [            
+            "doc",
+            "docx",
+            "pdf",            
+            "xml",
+            "css",
+            "php", 
+            "c",
+            "cpp",
+            "h",
+            "hpp",
+            "js",    
+            "xls",
+            "xlsx",
+            "ppt",
+            "pptx",
+            "pages",
+            "ai",
+            "psd",
+            "tiff",
+            "dxf",
+            "svg",
+            "eps",
+            "ps",
+            "ttf",
+            "xps"
+        ]
+    },    
     "videos": {
         "showVideoPlayer": true,
         "videosExt": [

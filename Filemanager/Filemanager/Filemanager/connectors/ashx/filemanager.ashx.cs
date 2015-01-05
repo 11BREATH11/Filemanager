@@ -10,7 +10,6 @@ using System.Configuration;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Net;
-using System.Web.UI;
 
 namespace NewFileManager.FileManager.connectors.ashx
 {
@@ -76,7 +75,7 @@ namespace NewFileManager.FileManager.connectors.ashx
             public int ComponentLevel;
         }
         
-        private IEnumerable<FileList> ConvertToFileList(string path,DataTable dataTable)
+        private IEnumerable<FileList> ConvertToFileList(string path,System.Data.DataTable dataTable)
         {
             DateTime myDate;          
             return dataTable.AsEnumerable().Select(row =>
@@ -182,7 +181,7 @@ namespace NewFileManager.FileManager.connectors.ashx
 
                 //SqlDependency.Start(ConfigurationManager.ConnectionStrings["FileTableDBConnectionString"].ConnectionString);
 
-                DataTable dt = new DataTable();
+                System.Data.DataTable dt = new System.Data.DataTable();
                 SqlCommand sqlCmd = new SqlCommand("GetFileListFromPath", sqlConn);
                 sqlCmd.CommandType = CommandType.StoredProcedure;
 
@@ -375,7 +374,7 @@ namespace NewFileManager.FileManager.connectors.ashx
             
             foreach (FileInfo fileInfo in RootDirInfo.GetFiles())
             {                        
-                    DataTable dt = new DataTable();
+                    System.Data.DataTable dt = new System.Data.DataTable();
                     /*SqlCommand sqlCmd = new SqlCommand("GetAttributeFromPath", sqlConn);
                     sqlCmd.CommandType = CommandType.StoredProcedure;
 
@@ -475,7 +474,7 @@ namespace NewFileManager.FileManager.connectors.ashx
 
             if (result != "") { return result; }
 
-            DataTable dt = new DataTable();
+            System.Data.DataTable dt = new System.Data.DataTable();
 
             if (useFileTable)
             {
@@ -500,7 +499,7 @@ namespace NewFileManager.FileManager.connectors.ashx
 
             StringBuilder sb = new StringBuilder();
 
-            FileAttributes attr = File.GetAttributes(path);
+            FileAttributes attr = System.IO.File.GetAttributes(path);
 
             if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
             {
@@ -643,7 +642,7 @@ namespace NewFileManager.FileManager.connectors.ashx
 
              if (resultCheck != ""){return resultCheck;}
 
-                FileAttributes attr = File.GetAttributes(path);                
+                FileAttributes attr = System.IO.File.GetAttributes(path);                
 
                 if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
                 {
@@ -681,7 +680,7 @@ namespace NewFileManager.FileManager.connectors.ashx
 
                     try
                     {
-                        File.Move(path, Path.Combine(fileInfo.Directory.FullName, newName));
+                        System.IO.File.Move(path, Path.Combine(fileInfo.Directory.FullName, newName));
                     }
                     catch (Exception e)
                     {
@@ -713,9 +712,9 @@ namespace NewFileManager.FileManager.connectors.ashx
         {
             StringBuilder sb = new StringBuilder();            
 
-            if (File.Exists(path))
+            if (System.IO.File.Exists(path))
             {               
-               File.Delete(path);                
+               System.IO.File.Delete(path);                
             }
 
             if (Directory.Exists(path))
@@ -837,7 +836,7 @@ namespace NewFileManager.FileManager.connectors.ashx
             string key = usr + "_" + PathRoot;*/
 
             HttpContext.Current.Cache.Remove("my");   
-        }
+        }  
 
         public void ProcessRequest(HttpContext context)
         {            
@@ -851,7 +850,7 @@ namespace NewFileManager.FileManager.connectors.ashx
                 case "redirect":
 
                         string f = context.Request.QueryString.Get("path");                        
-                        if (!File.Exists(f))
+                        if (!System.IO.File.Exists(f))
                         {
                             context.Response.ContentType = "text/html";
                             context.Response.Write("Файл не знайдено.Будь ласка оновіть файлове дерево.");                                                       
@@ -894,33 +893,31 @@ namespace NewFileManager.FileManager.connectors.ashx
                                         context.Response.AddHeader("Content-Disposition", String.Format("inline;filename={0}", Path.GetFileName(f)));
                                         context.Response.AddHeader("Content-Length", ms.Length.ToString());
                                         context.Response.ContentType = GetMimeType(ext);
-                                        context.Response.BinaryWrite(ms.ToArray());                                        
+                                        context.Response.BinaryWrite(ms.ToArray());
                                     }
                                 }
                             }
                             else
                             {
-
-                                using (FileStream fs = File.OpenRead(f))
-                                {
-
-                                    int length = (int)fs.Length;
-                                    byte[] buffer;
-
-                                    using (BinaryReader br = new BinaryReader(fs))
+                                    using (FileStream fs = System.IO.File.OpenRead(f))
                                     {
-                                        buffer = br.ReadBytes(length);
-                                    }
 
-                                    //context.Response.Clear();
-                                    //context.Response.Buffer = true;
-                                    context.Response.AddHeader("Content-Disposition", String.Format("inline;filename={0}", Path.GetFileName(f)));
-                                    context.Response.AddHeader("Content-Length", length.ToString());
-                                    context.Response.ContentType = GetMimeType(ext);
-                                    context.Response.BinaryWrite(buffer);
-                                }
-                            }                        
-                        
+                                        int length = (int)fs.Length;
+                                        byte[] buffer;
+
+                                        using (BinaryReader br = new BinaryReader(fs))
+                                        {
+                                            buffer = br.ReadBytes(length);
+                                        }
+
+                                        //context.Response.Clear();
+                                        //context.Response.Buffer = true;
+                                        context.Response.AddHeader("Content-Disposition", String.Format("inline;filename={0}", Path.GetFileName(f)));
+                                        context.Response.AddHeader("Content-Length", length.ToString());
+                                        context.Response.ContentType = GetMimeType(ext);
+                                        context.Response.BinaryWrite(buffer);
+                                    }
+                                }              
                         }
 
                         context.Response.End();                  
@@ -1058,92 +1055,21 @@ namespace NewFileManager.FileManager.connectors.ashx
                         context.Response.ContentType = "application/octet-stream";
                         context.Response.TransmitFile(fi.FullName);  
 
-                    break;
-                case "add":                    
+                    break;               
+
+                case "addFlash":                    
+
+                    var fileNew = context.Request.Files[0];                    
 
                     string path = context.Request["currentpath"];
-                    //string rewrite = context.Request["rewrite"];
 
                     string user_id = context.Request["user_id"];
                     string user_create = context.Request["user_create"];
                     string date_document = context.Request["date_document"];
 
-                    string fullpath;
+                    string fullpath = Path.Combine(path, Path.GetFileName(fileNew.FileName));
 
                     StringBuilder sb = new StringBuilder();
-
-                    sb.AppendLine("{");
-
-                    int k = 0;
-                    for (int i = 0; i < context.Request.Files.Count; i++)
-                    {
-                        if (context.Request.Files[i].FileName != "")
-                        {
-                            fullpath = Path.Combine(path, Path.GetFileName(context.Request.Files[i].FileName));
-
-                            if (k > 0)
-                            {
-                                sb.Append(",");
-                                sb.AppendLine();
-                            }
-
-                            k++;
-
-                            bool fileExists = false;
-                            if (File.Exists(fullpath))
-                            {
-                                 fileExists = true;
-                                 File.Delete(fullpath);
-                            }
-                                 
-                                context.Request.Files[i].SaveAs(fullpath);                          
-
-                                if (useFileTable)
-                                {
-                                    AddParams(user_id, date_document, user_create, fullpath);
-                                }
-
-                                context.Response.ContentType = "text/html";
-                                context.Response.ContentEncoding = Encoding.UTF8;                          
-
-                                sb.AppendLine("\"" + fullpath + "/\": {");
-
-                                sb.AppendLine("\"Path\": \"" + path + "\",");
-                                sb.AppendLine("\"Name\": \"" + Path.GetFileName(context.Request.Files[i].FileName) + "\",");
-                                sb.AppendLine("\"Error\": \"No error\",");
-
-                                if (!fileExists)
-                                {
-                                    sb.AppendLine("\"Code\": 0");
-                                }
-                                else
-                                {
-                                    sb.AppendLine("\"Code\": -1");
-                                }
-
-                                sb.AppendLine("}");                                                        
-                        }
-                    }
-
-                    sb.AppendLine("}");                    
-
-                    context.Response.Write(sb.ToString());
-
-                    break;
-
-                case "addFlash":                    
-
-                    var file = context.Request.Files[0];
-
-                    path = context.Request["currentpath"];
-
-                    user_id = context.Request["user_id"];
-                    user_create = context.Request["user_create"];
-                    date_document = context.Request["date_document"];
-                    
-                    fullpath = Path.Combine(path, Path.GetFileName(file.FileName));
-
-                    sb = new StringBuilder();
                     context.Response.ContentType = "text/html";
                     context.Response.ContentEncoding = Encoding.UTF8;
 
@@ -1163,9 +1089,9 @@ namespace NewFileManager.FileManager.connectors.ashx
                             break;
                      }          
 
-                    if (!File.Exists(fullpath))
+                    if (!System.IO.File.Exists(fullpath))
                     {
-                        file.SaveAs(fullpath);
+                        fileNew.SaveAs(fullpath);
 
                         if (useFileTable)
                         {
@@ -1174,7 +1100,7 @@ namespace NewFileManager.FileManager.connectors.ashx
                         
                         sb.AppendLine("{");
                         sb.AppendLine("\"Path\": \"" + path + "\",");
-                        sb.AppendLine("\"Name\": \"" + Path.GetFileName(file.FileName) + "\",");
+                        sb.AppendLine("\"Name\": \"" + Path.GetFileName(fileNew.FileName) + "\",");
                         sb.AppendLine("\"Error\": \"No error\",");
                         sb.AppendLine("\"Code\": 0");
                         sb.AppendLine("}");
@@ -1184,8 +1110,8 @@ namespace NewFileManager.FileManager.connectors.ashx
 
                     else
                     {
-                        File.Delete(fullpath);
-                        file.SaveAs(fullpath);
+                        System.IO.File.Delete(fullpath);
+                        fileNew.SaveAs(fullpath);
 
                         if (useFileTable)
                         {
@@ -1194,7 +1120,7 @@ namespace NewFileManager.FileManager.connectors.ashx
 
                         sb.AppendLine("{");                        
                         sb.AppendLine("\"Path\": \"" + path + "\",");
-                        sb.AppendLine("\"Name\": \"" + Path.GetFileName(file.FileName) + "\",");
+                        sb.AppendLine("\"Name\": \"" + Path.GetFileName(fileNew.FileName) + "\",");
                         sb.AppendLine("\"Error\": \"Error\",");
                         sb.AppendLine("\"Code\": -1");
                         sb.AppendLine("}");
@@ -1204,64 +1130,46 @@ namespace NewFileManager.FileManager.connectors.ashx
 
                     break;
 
-                case "rewrite":
+                case "rewriteNoFlash":
 
-                    string fileName = context.Request.Params["filename"];
+                    var data = context.Request.Params["fileNames"];
 
                     path = context.Request["currentpath"];
 
-                    fullpath = Path.Combine(path, fileName);
+                    string[] strFiles = data.Split(new Char[] { ',' });
+                    sb = new StringBuilder();
 
-                    if (!File.Exists(fullpath))
+                    sb.AppendLine("{");
+
+                    for (int i = 0; i < strFiles.Length; i++)
                     {
-                        context.Response.Write(0);
-                    }
-                    else
-                    {
-                        context.Response.Write(1);
-                    }
-
-                    break;
-
-                    case "rewriteNoFlash":                        
-
-                        var data = context.Request.Params["fileNames"];
-
-                        path = context.Request["currentpath"];
-
-                        string[] strFiles = data.Split(new Char[]{','});
-                        sb = new StringBuilder();
-
-                        sb.AppendLine("{");                                           
-
-                        for(int i=0;i<strFiles.Length;i++)
+                        if (i > 0)
                         {
-                            if (i > 0)
-                            {
-                                sb.Append(",");
-                                sb.AppendLine();
-                            }
+                            sb.Append(",");
+                            sb.AppendLine();
+                        }
 
-                            fullpath = Path.Combine(path, strFiles[i]);
-                            sb.AppendLine("\"" + fullpath + "/\": {");
-                            sb.AppendLine("\"File\": \"" + strFiles[i] + "\",");                            
+                        fullpath = Path.Combine(path, strFiles[i]);
+                        sb.AppendLine("\"" + fullpath + "/\": {");
+                        sb.AppendLine("\"File\": \"" + strFiles[i] + "\",");
 
-                            if (!File.Exists(fullpath))
-                            {
-                                sb.AppendLine("\"Code\": 0");
-                            }else
-                            {
-                                sb.AppendLine("\"Code\": -1");
-                            }
-
-                            sb.AppendLine("}");
+                        if (!System.IO.File.Exists(fullpath))
+                        {
+                            sb.AppendLine("\"Code\": 0");
+                        }
+                        else
+                        {
+                            sb.AppendLine("\"Code\": -1");
                         }
 
                         sb.AppendLine("}");
+                    }
 
-                        context.Response.Write(sb.ToString());
+                    sb.AppendLine("}");
 
-                        break;
+                    context.Response.Write(sb.ToString());
+
+                    break;
 
                     case "checkPath":
 
@@ -1320,7 +1228,7 @@ namespace NewFileManager.FileManager.connectors.ashx
                 return sb.ToString();
             }
 
-            if (!File.Exists(OldPath) && OldPath.LastIndexOf('/') != OldPath.Length - 1)
+            if (!System.IO.File.Exists(OldPath) && OldPath.LastIndexOf('/') != OldPath.Length - 1)
             {
                 string str;
                 
