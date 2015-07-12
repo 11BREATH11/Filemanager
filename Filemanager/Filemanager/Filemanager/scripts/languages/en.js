@@ -29,6 +29,7 @@
     "dimensions": "Dimensions",
     "download": "Download",
     "edit": "Edit file",
+    "editFile": "Edit", 
     "fck_select_integration": "The 'Select' is used only for integration with FCKEditor.", 
     "file_size_limit": "File size limit:",
     "file_too_big": "The file is too large.",

@@ -10,6 +10,7 @@ using System.Configuration;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 
 namespace NewFileManager.FileManager.connectors.ashx
 {
@@ -571,61 +572,61 @@ namespace NewFileManager.FileManager.connectors.ashx
 
         }
 
-        private string editFile(string path)
-        {            
-            
-                string result = checkPath(path);
+        private string editFileEditor(string path)
+        {
 
-                if (result != "") { return result; }                      
-           
-                //FileInfo fileInfo = new FileInfo(path);
-                //StreamReader read = fileInfo.OpenText();
+            string result = checkPath(path);
 
-                //string text = read.ReadLine();
+            if (result != "") { return result; }
 
-                //read.Close();
+            //FileInfo fileInfo = new FileInfo(path);
+            //StreamReader read = fileInfo.OpenText();
 
-                StringBuilder sb = new StringBuilder();
+            //string text = read.ReadLine();
 
-                sb.AppendLine("{");
-                sb.AppendLine("\"Content\": {");                   
-                
-                using (StreamReader sr = new StreamReader(path))
+            //read.Close();
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("{");
+            sb.AppendLine("\"Content\": {");
+
+            using (StreamReader sr = new StreamReader(path))
+            {
+                int i = 0;
+                while (sr.Peek() >= 0)
                 {
-                    int i = 0;
-                    while (sr.Peek() >= 0)
-                    {
-                        i++;
+                    i++;
 
-                        sb.Append("\""+ i +"\":" + "\"" + sr.ReadLine() + "\"");                        
+                    sb.Append("\"" + i + "\":" + "\"" + sr.ReadLine() + "\"");
 
-                        if (sr.Peek() >= 0) { sb.Append(","); }
-                    }
+                    if (sr.Peek() >= 0) { sb.Append(","); }
                 }
+            }
 
-                
-                sb.AppendLine("},");                
-                
-                sb.AppendLine("\"Error\": \"\",");
-                sb.AppendLine("\"Code\": 0	");
-                sb.AppendLine("}");               
 
-                return sb.ToString();
+            sb.AppendLine("},");
+
+            sb.AppendLine("\"Error\": \"\",");
+            sb.AppendLine("\"Code\": 0	");
+            sb.AppendLine("}");
+
+            return sb.ToString();
         }
 
-        private string saveFile(string path,string content)
+        private string saveFileEditor(string path, string content)
         {
-            
+
             StringBuilder sb = new StringBuilder();
 
             FileInfo fileInfo = new FileInfo(path);
-            
+
             StreamWriter save = fileInfo.CreateText();
             save.Write(content);
             save.Close();
 
             sb.AppendLine("{");
-            sb.AppendLine("\"Path\": \"" + path + "\",");            
+            sb.AppendLine("\"Path\": \"" + path + "\",");
             sb.AppendLine("\"Error\": \"\",");
             sb.AppendLine("\"Code\": 0	");
             sb.AppendLine("}");
@@ -633,6 +634,34 @@ namespace NewFileManager.FileManager.connectors.ashx
             return sb.ToString();
 
         }    
+
+        private string editFile(string path)
+        { 
+            string result = checkPath(path);
+            if (result != "") { return result; }           
+            
+            return "";   
+        }
+
+        private string saveFile(string fileId,string path)
+        {           
+
+            return "";
+        }
+       
+        public void SaveStreamToFile(string filename, Stream stream)
+        {
+            if (stream.Length != 0)
+                using (FileStream fileStream = System.IO.File.Create(filename, (int)stream.Length))
+                {
+                    // Размещает массив общим размером равным размеру потока
+                    // Могут быть трудности с выделением памяти для больших объемов
+                    byte[] data = new byte[stream.Length];
+
+                    stream.Read(data, 0, (int)data.Length);
+                    fileStream.Write(data, 0, data.Length);
+                }
+        }
 
         private string Rename(string path, string newName)
         {
@@ -861,21 +890,7 @@ namespace NewFileManager.FileManager.connectors.ashx
                             string view = context.Request.QueryString.Get("view");
 
                             string ext = Path.GetExtension(f);
-                            context.Response.ContentEncoding = Encoding.UTF8;
-
-                            /* context.Response.WriteFile(f);                  
-                        
-
-                             if (ext == ".mht")
-                             {
-                                 context.Response.AddHeader("Content-Disposition", "inline; filename=MyFile.mht");
-                                 context.Response.AddHeader("Content-Length", MyByteArray.Length.ToString);
-                                 context.Response.ContentType = "multipart/related";
-                             }
-                             else
-                             {
-                                 context.Response.ContentType = GetMimeType(ext);
-                             }*/
+                            context.Response.ContentEncoding = Encoding.UTF8;                           
 
                             if (view != null && IsImage(ext) && view == "false")
                             {
@@ -949,9 +964,28 @@ namespace NewFileManager.FileManager.connectors.ashx
                case "savefile":
 
                     context.Response.ContentType = "plain/text";
-                    context.Response.ContentEncoding = Encoding.UTF8;                    
+                    context.Response.ContentEncoding = Encoding.UTF8;
 
-                    context.Response.Write(saveFile(context.Request["path"], context.Request["content"]));
+                    context.Response.Write(saveFile(context.Request["fileId"], context.Request["path"]));
+
+                    break;
+
+               case "editfileEditor":
+
+                    context.Response.ContentType = "application/json";
+                    context.Response.ContentEncoding = Encoding.UTF8;
+
+                    context.Response.Write(editFileEditor(context.Request["path"]));
+
+                    break;
+
+
+               case "savefileEditor":
+
+                    context.Response.ContentType = "plain/text";
+                    context.Response.ContentEncoding = Encoding.UTF8;
+
+                    context.Response.Write(saveFileEditor(context.Request["path"], context.Request["content"]));
 
                     break;
                     
@@ -1368,7 +1402,7 @@ namespace NewFileManager.FileManager.connectors.ashx
         {".dlm", "text/dlm"},
         {".doc", "application/msword"},
         {".docm", "application/vnd.ms-word.document.macroEnabled.12"},
-        {".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"},
+        {".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"},                   
         {".dot", "application/msword"},
         {".dotm", "application/vnd.ms-word.template.macroEnabled.12"},
         {".dotx", "application/vnd.openxmlformats-officedocument.wordprocessingml.template"},

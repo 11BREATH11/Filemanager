@@ -27,7 +27,7 @@
     "useFileTable": false,
     "relPath": false,
     "logger": false,
-    "capabilities": ["select", "download", "rename", "delete", "replace"],
+    "capabilities": ["select","edit", "download", "rename", "delete", "replace"],
     "plugins": []
 },    
     "security": {
@@ -89,7 +89,8 @@
             "jpeg",
             "gif",
             "png",
-            "svg"
+            "svg",
+            "bmp"
         ],
         "resize": {
             "enabled":true,
@@ -102,7 +103,7 @@
             "html",
             "htm",
             "mht",
-            "txt"          
+            "txt"
         ]
     },    
     "doc": {
@@ -131,7 +132,7 @@
             "eps",
             "ps",
             "ttf",
-            "xps"
+            "xps"                       
         ]
     },    
     "videos": {
@@ -162,7 +163,9 @@
         "lineWrapping": true,
         "codeHighlight": false,
         "theme": "elegant",
-        "editExt": [
+        "editExt": [            
+        ],
+        "editEditorExt": [
             "txt"
         ]
     },

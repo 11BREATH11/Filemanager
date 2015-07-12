@@ -85,7 +85,7 @@
 
     // Read capabilities from config files if exists
     // else apply default settings
-    var capabilities = config.options.capabilities || new Array('select', 'download', 'rename', 'move', 'delete', 'replace');
+    var capabilities = config.options.capabilities || new Array('edit','select', 'download', 'rename', 'move', 'delete', 'replace');
 
     // Get localized messages from file 
     // through culture var or from URL
@@ -328,6 +328,14 @@
         }
     };
 
+    var isEditableFileEditor = function (filename) {
+        if ($.inArray(getExtension(filename), config.edit.editEditorExt) != -1) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
     // Test if is image file
     var isImageFile = function (filename) {
         if ($.inArray(getExtension(filename), config.images.imagesExt) != -1) {
@@ -561,6 +569,14 @@
             }).show();
         }
 
+        if (!has_capability(data, 'edit')) {
+            $('#fileinfo').find('button#edit').hide();
+        } else {
+            $('#fileinfo').find('button#edit').click(function () {
+                editItem(data);
+            }).show();
+        }
+
         if (!has_capability(data, 'download')) {
             $('#fileinfo').find('button#download').hide();
         } else {
@@ -764,7 +780,7 @@
                         }
 
 
-                        $('#filetree').find('li a[data-path="' + result[key]["Path"] + '"]').attr('class', 'cap_download cap_rename cap_delete').each(function () {
+                        $('#filetree').find('li a[data-path="' + result[key]["Path"] + '"]').attr('class', 'cap_edit cap_download cap_rename cap_delete').each(function () {
                             $(this).contextMenu(
                                 { menu: getContextMenuOptions($(this)) },
                                 function (action, el, pos) {
@@ -891,7 +907,7 @@
                                 data['Filename'] = newName;
 
                                 // Bind toolbar functions.
-                                $('#fileinfo').find('button#rename, button#delete, button#download').unbind();
+                                $('#fileinfo').find('button#edit,button#rename, button#delete, button#download').unbind();
                                 bindToolbar(data);
 
                                 if (config.options.showConfirmation) $.prompt(lg.successful_rename);
@@ -1161,12 +1177,118 @@
 
         $('#edit-file').click(function () {
 
-            $('#fileinfo').find('iframe').hide();
+            //$('#fileinfo').find('iframe').hide();
 
             $(this).hide(); // hiding Edit link
 
             var d = new Date(); // to prevent IE cache issues
             var connectString = fileConnector + '?mode=editfile&path=' + encodeURIComponent(data['Path']) + '&time=' + d.getMilliseconds();
+
+            $.getJSON(connectString, function (result) {
+
+                if (result['Code'] == -1) {
+
+                    $.prompt(lg.ERROR_RENAMING_FILE);
+
+                    updateFolder();
+
+                    return;
+                }
+
+                if (result['Code'] == -2) {
+
+                    $.prompt(lg.ERROR_RENAMING_DIRECTORY);
+
+                    $('#update').trigger("click");
+
+                    return;
+                }            
+
+                if (result['Code'] == 0) {
+
+                    var url = result['url'];
+                    var fileId = result['fileId'];
+
+                    var contentBox = $("#fileinfo");
+
+                    var width = parseInt(contentBox.css("width").replace("px", "")) - 50;
+                    var height = parseInt(contentBox.css("height").replace("px", "")) - 50;
+
+                    var content = '<form id="edit-form">';                    
+                    content += '<input type="hidden" name="mode" value="savefile" />';
+                    content += '<input type="hidden" name="fileId" value="' + fileId + '" />';
+                    content += '<input type="hidden" name="path" value="' + data['Path'] + '" />';
+                    content += '<button id="edit-cancel" class="edition" class="button" type="button">' + lg.quit_editor + '</button>';
+                    content += '<button id="edit-save" class="edition" class="button" type="button">' + lg.save + '</button>';
+                    content += '</form>';
+
+                    $('#preview').find('img').hide();
+                    $('#preview').prepend(content).hide().fadeIn();
+
+                    var urlOld = $('#fileinfo').find('iframe')[0].src;
+
+                    $('#fileinfo').find('iframe').attr('src', url);
+
+                    // Cancel Button Behavior
+                    $('#edit-cancel').click(function () {
+                        $('#preview').find('form#edit-form').hide();
+                        $('#preview').find('img').fadeIn();
+                        $('#edit-file').show();
+                        $('#fileinfo').find('iframe').attr('src',urlOld);                                                
+                    });
+
+                    // Save Button Behavior
+                    $('#edit-save').click(function () {             
+
+                        var postData = $('#edit-form').serializeArray();
+
+                        $.ajax({
+                            type: 'POST',
+                            url: fileConnector,
+                            dataType: 'json',
+                            data: postData,
+                            async: false,
+                            success: function (result) {
+                                if (result['Code'] == 0) {
+                                    isEdited = true;                                   
+                                    $.prompt(lg.successful_edit);
+                                    $('#preview').find('form#edit-form').hide();
+                                    $('#preview').find('img').fadeIn();
+                                    $('#edit-file').show();
+                                    $('#fileinfo').find('iframe').attr('src', urlOld);
+                                } else {
+                                    isEdited = false;
+                                    $.prompt(result['Error']);
+                                }
+                            }
+                        });
+
+                    });
+
+                    // we instantiate codeMirror according to config options
+                    //codeMirrorEditor = instantiateCodeMirror(getExtension(data['Path']), config);
+                }
+            });
+
+        });
+
+        return isEdited;
+    };
+
+    var editItemEditor = function (data) {
+
+        isEdited = false;
+
+        $('#fileinfo').find('h1').append(' <a id="edit-file" href="#" title="' + lg.edit + '"><span>' + lg.edit + '</span></a>');
+
+        $('#edit-file').click(function () {
+
+            $('#fileinfo').find('iframe').hide();
+
+            $(this).hide(); // hiding Edit link
+
+            var d = new Date(); // to prevent IE cache issues
+            var connectString = fileConnector + '?mode=editfileEditor&path=' + encodeURIComponent(data['Path']) + '&time=' + d.getMilliseconds();
 
             $.getJSON(connectString, function (result) {
 
@@ -1200,7 +1322,7 @@
 
                     var content = '<form id="edit-form">';
                     content += '<textarea id="edit-content" name="content" style="overflow:auto">' + text + '</textarea>';
-                    content += '<input type="hidden" name="mode" value="savefile" />';
+                    content += '<input type="hidden" name="mode" value="savefileEditor" />';
                     content += '<input type="hidden" name="path" value="' + data['Path'] + '" />';
                     content += '<button id="edit-cancel" class="edition" class="button" type="button">' + lg.quit_editor + '</button>';
                     content += '<button id="edit-save" class="edition" class="button" type="button">' + lg.save + '</button>';
@@ -1235,9 +1357,13 @@
                             async: false,
                             success: function (result) {
                                 if (result['Code'] == 0) {
-                                    isEdited = true;
-                                    // if (config.options.showConfirmation) $.prompt(lg.successful_edit);
+                                    isEdited = true;                                    
                                     $.prompt(lg.successful_edit);
+                                    $('#preview').find('form#edit-form').hide();
+                                    $('#preview').find('img').fadeIn();
+                                    $('#edit-file').show();
+                                    $('#fileinfo').find('iframe').show();
+                                    $('#fileinfo').find('iframe')[0].src = $('#fileinfo').find('iframe')[0].src;
                                 } else {
                                     isEdited = false;
                                     $.prompt(result['Error']);
@@ -1460,6 +1586,7 @@
             var newOptions = $('#itemOptions').clone().attr('id', optionsID);
             if (!elem.hasClass('cap_select')) $('.select', newOptions).remove();
             if (!elem.hasClass('cap_download')) $('.download', newOptions).remove();
+            //if (!elem.hasClass('cap_edit')) $('.edit', newOptions).remove();
             if (!elem.hasClass('cap_rename')) $('.rename', newOptions).remove();
             if (!elem.hasClass('cap_move')) $('.move', newOptions).remove();
             $('.replace', newOptions).remove(); // we remove replace since it is not implemented on Opera + Chrome and works only if #preview panel is on on FF
@@ -1600,6 +1727,7 @@
 
         template += '<form id="toolbar">';
         template += '<button id="parentfolder" class="button">' + lg.parentfolder + '</button>';
+        //if ($.inArray('edit', capabilities) != -1) template += '<button class="button" id="edit" name="edit" type="button" value="Edit">' + lg.editFile + '</button>';
         if ($.inArray('select', capabilities) != -1 && ($.urlParam('CKEditor') || window.opener || window.tinyMCEPopup || $.urlParam('field_name'))) template += '<button id="select" class="button" name="select" type="button" value="Select">' + lg.select + '</button>';
         if ($.inArray('download', capabilities) != -1) template += '<button class="button" id="download" name="download" type="button" value="Download">' + lg.download + '</button>';
         if ($.inArray('rename', capabilities) != -1 && config.options.browseOnly != true) template += '<button class="button" id="rename" name="rename" type="button" value="Rename">' + lg.rename + '</button>';
@@ -1633,9 +1761,9 @@
 
                 var docPath = location.protocol + '//' + location.host + "/Filemanager/connectors/ashx/filemanager.ashx?path=" + file + "&mode=redirect&view=true";
 
-                var url = "http://docs.google.com/viewer?url=" + encodeURIComponent(docPath) + "&embedded=true"
+                var url ="http://docs.google.com/gview?url=" +encodeURIComponent(docPath) + "&embedded=true";
 
-                $('#fileinfo').find('h1').html('<a href="#" onclick="window.open(\'' + 'http://docs.google.com/viewer?url=' + encodeURIComponent(docPath) + '\',\'_blank\'); return false;">' + data['Filename'] + '</a>');
+                $('#fileinfo').find('h1').html('<a href="#" onclick="window.open(\'' + 'http://docs.google.com/viewer?url=' + encodeURIComponent(docPath) + '\',\'_blank\'); return false;">' + data['Filename'] + '</a>');                
 
                 $('#fileinfo').find('iframe').attr('src', url);
                 
@@ -1669,6 +1797,10 @@
 
             if (isEditableFile(data['Filename']) && config.edit.enabled == true) {
                 editItem(data);
+            }
+
+            if (isEditableFileEditor(data['Filename']) && config.edit.enabled == true) {
+                editItemEditor(data);
             }
 
             var properties = '';
@@ -2458,6 +2590,7 @@
             $('#list').attr('title', lg.list_view);
             $('#fileinfo h1').append(lg.select_from_left);
             $('#itemOptions a[href$="#select"]').append(lg.select);
+            $('#itemOptions a[href$="#edit"]').append(lg.editFile);
             $('#itemOptions a[href$="#download"]').append(lg.download);
             $('#itemOptions a[href$="#rename"]').append(lg.rename);
             $('#itemOptions a[href$="#move"]').append(lg.move);
@@ -2630,6 +2763,7 @@
             $('#upload').remove();
             $('#newfolder').remove();
             $('#toolbar').remove('#rename');
+            $('.contextMenu .edit').remove();
             $('.contextMenu .rename').remove();
             $('.contextMenu .move').remove();
             $('.contextMenu .replace').remove();

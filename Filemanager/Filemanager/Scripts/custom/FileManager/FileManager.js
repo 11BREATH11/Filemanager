@@ -36,13 +36,28 @@ function ResizeFrame(wnd) {
     
 }
 
-function OpenFileMngr(user_id, fileRoot, serverRoot, serverMode, useFileTable) {
+var myWin;
+
+$(window).on("orientationchange", function (event) {
+    w = screen.width;    
+
+    h = screen.height;  
+    
+
+    if (myWin != null) {
+
+        myWin.resize(w, h);
+    }
+});
+
+
+function OpenFileMngr(user_id, fileRoot, serverRoot, serverMode, useFileTable, langCode) {
 
     
     var isMob = isMobile.any();
     
     var w = 920;
-    var h = 700;
+    var h = 600;
 
     /*if (isMob) {
 
@@ -54,33 +69,32 @@ function OpenFileMngr(user_id, fileRoot, serverRoot, serverMode, useFileTable) {
 
     var url = "Filemanager/index.html?user_id=" + user_id +
                  "&fileRoot=" + fileRoot + "&serverRoot=" + serverRoot +
-                 "&serverMode=" + serverMode + "&useFileTable=" + useFileTable;
+                 "&serverMode=" + serverMode + "&useFileTable=" + useFileTable + "&langCode=" +langCode;
 
     if (!isMob) {
 
 
         myWin = $.window({
-            showModal: false, modalOpacity: 0.5,
-            title: "Work whith files",
+            showModal: false, modalOpacity: 0.5,            
             url: url,
             width: w, height: h,
             bookmarkable: false,
             draggable: !isMob,
             resizable: !isMob,
-            //minWidth: w,
-            //minHeight: h,
+            maxWidth: screen.width,
+            maxHeight: screen.height,
             maximizable: !isMob,
             minimizable: !isMob,
             scrollable: true,
             afterResize: function (wnd) {
 
-               setTimeout(function () { ResizeFrame(wnd) }, 30);
+               setTimeout(function () { ResizeFrame(wnd) }, 50);
             },
             afterMaximize: function (wnd) {
-                setTimeout(function () { ResizeFrame(wnd) }, 30);
+                setTimeout(function () { ResizeFrame(wnd) }, 50);
             },
             afterCascade: function (wnd) {
-                setTimeout(function () { ResizeFrame(wnd) }, 30);
+                setTimeout(function () { ResizeFrame(wnd) }, 50);
             }
         });
     } else {
