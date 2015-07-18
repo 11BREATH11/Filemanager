@@ -13,7 +13,7 @@ If the file is much to use then only server mode.
 b) Normal server mode, each time you view a file or file tree are constantly requests to the server.
 Cons, slow and depends on the internet connection.
 
-2. Editing text files in the file manager view html,htm,mht,doc,docx,pdf,xml,css,php,c,cpp,h,hpp,js,xls,xlsx,ppt,pptx,pages,ai,psd,tiff,dxf,svg,eps,ps,ttf,xp files.
+2. Editing text files in the file manager, and view html,htm,mht,doc,docx,pdf,xml,css,php,c,cpp,h,hpp,js,xls,xlsx,ppt,pptx,pages,ai,psd,tiff,dxf,svg,eps,ps,ttf,xp files.
 
 4. View the videos and listening to music jwPlayer, picture viewing jpg, jpeg, gif, png, svg, bmp
 
