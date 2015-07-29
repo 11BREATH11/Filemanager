@@ -1,6 +1,6 @@
 Features Web File Manager (Visual Studio 2012)
 
-<a href="http://www.filemanager.mrbonus.com">http://www.filemanager.mrbonus.com</a>
+<a href="http://filemanager.dnset.com">http://filemanager.dnset.com</a>
 
 1. Two modes of operation
 
