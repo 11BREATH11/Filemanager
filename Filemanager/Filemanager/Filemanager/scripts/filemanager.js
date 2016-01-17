@@ -1726,7 +1726,7 @@
 
 
         template += '<form id="toolbar">';
-        template += '<button id="parentfolder" class="button">' + lg.parentfolder + '</button>';
+        template += '<button id="parentfolder" class="button" type="button">' + lg.parentfolder + '</button>';
         //if ($.inArray('edit', capabilities) != -1) template += '<button class="button" id="edit" name="edit" type="button" value="Edit">' + lg.editFile + '</button>';
         if ($.inArray('select', capabilities) != -1 && ($.urlParam('CKEditor') || window.opener || window.tinyMCEPopup || $.urlParam('field_name'))) template += '<button id="select" class="button" name="select" type="button" value="Select">' + lg.select + '</button>';
         if ($.inArray('download', capabilities) != -1) template += '<button class="button" id="download" name="download" type="button" value="Download">' + lg.download + '</button>';
@@ -2104,7 +2104,7 @@
     // TODO: consider stylesheet switching to switch between grid
     // and list views with sorting options.
     var getFolderInfo = function (path) {
-        // Update location for status, upload, & new folder functions.
+        // Update location for status, upload, & new folder functions.        
         setUploader(path);
 
         // Display an activity indicator.
