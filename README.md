@@ -1,4 +1,4 @@
-Features Web File Manager (Visual Studio 2012)
+Features Web File Manager
 
 <a href="http://filemanager.dnset.com">http://filemanager.dnset.com</a>
 
