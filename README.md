@@ -1,6 +1,6 @@
 Features Web File Manager
 
-<a href="http://www.filemanager.ezua.com">http://www.filemanager.ezua.com</a>
+<a href="http://filemanager.azurewebsites.net">http://filemanager.azurewebsites.net</a>
 
 1. It is easy import in projects ASP NET and ASP NET MVC, there is a configuration file with a lot of settings, there is a localization en, ru, ua
 
