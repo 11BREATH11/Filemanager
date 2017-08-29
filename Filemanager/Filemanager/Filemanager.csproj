@@ -21,6 +21,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <TargetFrameworkProfile />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -287,6 +288,73 @@
     <Content Include="Filemanager\jwplayer\jwplayer.html5.js" />
     <Content Include="Filemanager\jwplayer\jwplayer.js" />
     <Content Include="Filemanager\jwplayer\README.html" />
+    <Content Include="Filemanager\plupload\i18n\ar.js" />
+    <Content Include="Filemanager\plupload\i18n\az.js" />
+    <Content Include="Filemanager\plupload\i18n\bs.js" />
+    <Content Include="Filemanager\plupload\i18n\cs.js" />
+    <Content Include="Filemanager\plupload\i18n\cy.js" />
+    <Content Include="Filemanager\plupload\i18n\da.js" />
+    <Content Include="Filemanager\plupload\i18n\de.js" />
+    <Content Include="Filemanager\plupload\i18n\el.js" />
+    <Content Include="Filemanager\plupload\i18n\en.js" />
+    <Content Include="Filemanager\plupload\i18n\es.js" />
+    <Content Include="Filemanager\plupload\i18n\et.js" />
+    <Content Include="Filemanager\plupload\i18n\fa.js" />
+    <Content Include="Filemanager\plupload\i18n\fi.js" />
+    <Content Include="Filemanager\plupload\i18n\fr.js" />
+    <Content Include="Filemanager\plupload\i18n\he.js" />
+    <Content Include="Filemanager\plupload\i18n\hr.js" />
+    <Content Include="Filemanager\plupload\i18n\hu.js" />
+    <Content Include="Filemanager\plupload\i18n\hy.js" />
+    <Content Include="Filemanager\plupload\i18n\id.js" />
+    <Content Include="Filemanager\plupload\i18n\it.js" />
+    <Content Include="Filemanager\plupload\i18n\ja.js" />
+    <Content Include="Filemanager\plupload\i18n\ka.js" />
+    <Content Include="Filemanager\plupload\i18n\kk.js" />
+    <Content Include="Filemanager\plupload\i18n\km.js" />
+    <Content Include="Filemanager\plupload\i18n\ko.js" />
+    <Content Include="Filemanager\plupload\i18n\lt.js" />
+    <Content Include="Filemanager\plupload\i18n\lv.js" />
+    <Content Include="Filemanager\plupload\i18n\mn.js" />
+    <Content Include="Filemanager\plupload\i18n\ms.js" />
+    <Content Include="Filemanager\plupload\i18n\nl.js" />
+    <Content Include="Filemanager\plupload\i18n\pl.js" />
+    <Content Include="Filemanager\plupload\i18n\pt_BR.js" />
+    <Content Include="Filemanager\plupload\i18n\ro.js" />
+    <Content Include="Filemanager\plupload\i18n\ru.js" />
+    <Content Include="Filemanager\plupload\i18n\sk.js" />
+    <Content Include="Filemanager\plupload\i18n\sq.js" />
+    <Content Include="Filemanager\plupload\i18n\sr.js" />
+    <Content Include="Filemanager\plupload\i18n\sr_RS.js" />
+    <Content Include="Filemanager\plupload\i18n\sv.js" />
+    <Content Include="Filemanager\plupload\i18n\th_TH.js" />
+    <Content Include="Filemanager\plupload\i18n\tr.js" />
+    <Content Include="Filemanager\plupload\i18n\ua.js" />
+    <Content Include="Filemanager\plupload\i18n\zh_CN.js" />
+    <Content Include="Filemanager\plupload\i18n\zh_TW.js" />
+    <Content Include="Filemanager\plupload\jquery.plupload.queue\css\jquery.plupload.queue.css" />
+    <Content Include="Filemanager\plupload\jquery.plupload.queue\img\backgrounds.gif" />
+    <Content Include="Filemanager\plupload\jquery.plupload.queue\img\buttons-disabled.png" />
+    <Content Include="Filemanager\plupload\jquery.plupload.queue\img\buttons.png" />
+    <Content Include="Filemanager\plupload\jquery.plupload.queue\img\delete.gif" />
+    <Content Include="Filemanager\plupload\jquery.plupload.queue\img\done.gif" />
+    <Content Include="Filemanager\plupload\jquery.plupload.queue\img\error.gif" />
+    <Content Include="Filemanager\plupload\jquery.plupload.queue\img\throbber.gif" />
+    <Content Include="Filemanager\plupload\jquery.plupload.queue\img\transp50.png" />
+    <Content Include="Filemanager\plupload\jquery.plupload.queue\jquery.plupload.queue.js" />
+    <Content Include="Filemanager\plupload\jquery.plupload.queue\jquery.plupload.queue.min.js" />
+    <Content Include="Filemanager\plupload\jquery.ui.plupload\css\jquery.ui.plupload.css" />
+    <Content Include="Filemanager\plupload\jquery.ui.plupload\img\loading.gif" />
+    <Content Include="Filemanager\plupload\jquery.ui.plupload\img\plupload.png" />
+    <Content Include="Filemanager\plupload\jquery.ui.plupload\jquery.ui.plupload.js" />
+    <Content Include="Filemanager\plupload\jquery.ui.plupload\jquery.ui.plupload.min.js" />
+    <Content Include="Filemanager\plupload\moxie.js" />
+    <Content Include="Filemanager\plupload\moxie.min.js" />
+    <Content Include="Filemanager\plupload\Moxie.swf" />
+    <Content Include="Filemanager\plupload\Moxie.xap" />
+    <Content Include="Filemanager\plupload\plupload.dev.js" />
+    <Content Include="Filemanager\plupload\plupload.full.min.js" />
+    <Content Include="Filemanager\plupload\plupload.min.js" />
     <Content Include="Filemanager\scripts\additional-methods.js" />
     <Content Include="Filemanager\scripts\CodeMirror\addon\comment\comment.js" />
     <Content Include="Filemanager\scripts\CodeMirror\addon\comment\continuecomment.js" />
