@@ -22,6 +22,7 @@
     <IISExpressUseClassicPipelineMode />
     <TargetFrameworkProfile />
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -781,14 +782,6 @@
     <Content Include="Filemanager\styles\ui-lightness\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Filemanager\styles\ui-lightness\jquery-ui-1.10.4.custom.css" />
     <Content Include="Filemanager\styles\ui-lightness\jquery-ui-1.10.4.custom.min.css" />
-    <Content Include="Filemanager\uploadify\butt_DownloadFile.jpg" />
-    <Content Include="Filemanager\uploadify\Change Log.txt" />
-    <Content Include="Filemanager\uploadify\jquery.uploadify.js" />
-    <Content Include="Filemanager\uploadify\jquery.uploadify.min.js" />
-    <Content Include="Filemanager\uploadify\license.txt" />
-    <Content Include="Filemanager\uploadify\uploadify-cancel.png" />
-    <Content Include="Filemanager\uploadify\uploadify.css" />
-    <Content Include="Filemanager\uploadify\uploadify.swf" />
     <Content Include="Filemanager\window\css\jquery.window.css" />
     <Content Include="Filemanager\window\jquery.window.js" />
     <Content Include="Filemanager\window\jquery.window.min.js" />
