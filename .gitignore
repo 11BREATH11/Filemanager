@@ -45,3 +45,5 @@ Temporary Items
 /Filemanager/Filemanager/bin
 /Filemanager/Filemanager/obj/Debug
 /Filemanager/packages
+/Filemanager/Filemanager/obj/Release
+/Filemanager/Filemanager/Properties/PublishProfiles

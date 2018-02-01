@@ -793,6 +793,7 @@
     <None Include="Properties\PublishProfiles\HomeFTP.pubxml" />
     <None Include="Properties\PublishProfiles\IIS.pubxml" />
     <None Include="Properties\PublishProfiles\smartasp.pubxml" />
+    <None Include="Properties\PublishProfiles\webfilemanager - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.0.js" />
     <Content Include="Scripts\jquery-1.9.0.min.js" />

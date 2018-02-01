@@ -389,7 +389,7 @@
     var getVideoPlayer = function (data) {
 
 
-        if (config.options.serverRoot) {
+        if (!config.options.serverRoot) {
 
             var url = config.options.fileRoot + data['Path'].substr(fileRoot.length, data['Path'].length - fileRoot.length);
 
