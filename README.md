@@ -1,7 +1,5 @@
 Features Web File Manager
 
-<a href="http://webfilemanager.azurewebsites.net">http://webfilemanager.azurewebsites.net</a>
-
 1. It is easy import in projects ASP NET and ASP NET MVC, there is a configuration file with a lot of settings, there is a localization en, ru, ua
 
 2. Two modes of operation
